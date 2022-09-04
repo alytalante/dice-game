@@ -11,8 +11,8 @@
         "
         @resetDie="() => handleDieReset()"
         @newTotalValue="
-          (value, columnPosition, rowValues) =>
-            handleUpdatedValue(value, columnPosition, rowValues)
+          (value, columnPosition, rowValues, resetTrue) =>
+            handleUpdatedValue(value, columnPosition, rowValues, resetTrue)
         "
       />
       <Column
@@ -24,8 +24,8 @@
         "
         @resetDie="() => handleDieReset()"
         @newTotalValue="
-          (value, columnPosition, rowValues) =>
-            handleUpdatedValue(value, columnPosition, rowValues)
+          (value, columnPosition, rowValues, resetTrue) =>
+            handleUpdatedValue(value, columnPosition, rowValues, resetTrue)
         "
       />
       <Column
@@ -37,8 +37,8 @@
         "
         @resetDie="() => handleDieReset()"
         @newTotalValue="
-          (value, columnPosition, rowValues) =>
-            handleUpdatedValue(value, columnPosition, rowValues)
+          (value, columnPosition, rowValues, resetTrue) =>
+            handleUpdatedValue(value, columnPosition, rowValues, resetTrue)
         "
       />
     </div>
@@ -75,7 +75,6 @@ export default {
   },
   watch: {
     p1Turn(newValue) {
-      console.log(newValue);
       this.myTurn = !this.myTurn;
     },
   },
@@ -86,17 +85,16 @@ export default {
     handleUpdateScore(value, columnPosition) {
       this.cScores[columnPosition] = value;
       this.totalValue = this.cScores[0] + this.cScores[1] + this.cScores[2];
-      console.log(this.totalValue);
     },
-    handleUpdatedValue(value, columnPosition, rowValues) {
+    handleUpdatedValue(value, columnPosition, rowValues, resetTrue) {
       this.field[columnPosition] = rowValues;
-
       this.$emit(
         "determineResults",
         "p2",
         columnPosition,
         rowValues,
-        this.field
+        this.field,
+        resetTrue
       );
     },
     handleDieReset() {

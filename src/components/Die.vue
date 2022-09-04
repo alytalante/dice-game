@@ -82,7 +82,9 @@ export default {
   image-rendering: pixelated;
   display: block;
   margin: 2px auto;
-  padding-bottom: 5px;
+  border: 1px solid #0f2a3f;
+  border-radius: 10px;
+  box-sizing: initial;
 }
 
 button {

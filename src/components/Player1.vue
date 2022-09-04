@@ -18,8 +18,8 @@
         "
         @resetDie="() => handleDieReset()"
         @newTotalValue="
-          (value, columnPosition, rowValues) =>
-            handleUpdatedValue(value, columnPosition, rowValues)
+          (value, columnPosition, rowValues, resetTrue) =>
+            handleUpdatedValue(value, columnPosition, rowValues, resetTrue)
         "
       />
       <Column
@@ -31,8 +31,8 @@
           (value, columnPosition) => handleUpdateScore(value, columnPosition)
         "
         @newTotalValue="
-          (value, columnPosition, rowValues) =>
-            handleUpdatedValue(value, columnPosition, rowValues)
+          (value, columnPosition, rowValues, resetTrue) =>
+            handleUpdatedValue(value, columnPosition, rowValues, resetTrue)
         "
       />
       <Column
@@ -44,8 +44,8 @@
         "
         @resetDie="() => handleDieReset()"
         @newTotalValue="
-          (value, columnPosition, rowValues) =>
-            handleUpdatedValue(value, columnPosition, rowValues)
+          (value, columnPosition, rowValues, resetTrue) =>
+            handleUpdatedValue(value, columnPosition, rowValues, resetTrue)
         "
       />
     </div>
@@ -85,16 +85,16 @@ export default {
     handleUpdateScore(value, columnPosition) {
       this.cScores[columnPosition] = value;
       this.totalValue = this.cScores[0] + this.cScores[1] + this.cScores[2];
-      console.log(this.totalValue);
     },
-    handleUpdatedValue(value, columnPosition, rowValues) {
+    handleUpdatedValue(value, columnPosition, rowValues, resetTrue) {
       this.field[columnPosition] = rowValues;
       this.$emit(
         "determineResults",
         "p1",
         columnPosition,
         rowValues,
-        this.field
+        this.field,
+        resetTrue
       );
     },
     handleDieReset() {

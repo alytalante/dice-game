@@ -4,8 +4,8 @@
       :modifiedArray="modifiedArray1"
       :p1Turn="p1Turn"
       @determineResults="
-        (playerNumber, rows, rowValues, field) =>
-          determineResults(playerNumber, rows, rowValues, field)
+        (playerNumber, rows, rowValues, field, resetTrue) =>
+          determineResults(playerNumber, rows, rowValues, field, resetTrue)
       "
     />
     <div class="gap"></div>
@@ -13,8 +13,8 @@
       :p1Turn="p1Turn"
       :modifiedArray="modifiedArray2"
       @determineResults="
-        (playerNumber, rows, rowValues, field) =>
-          determineResults(playerNumber, rows, rowValues, field)
+        (playerNumber, rows, rowValues, field, resetTrue) =>
+          determineResults(playerNumber, rows, rowValues, field, resetTrue)
       "
     />
   </div>
@@ -39,11 +39,15 @@ export default {
         newArray: [],
       },
       p1Turn: false,
+      mostRecentPlayer: null,
     };
   },
   methods: {
-    determineResults(playerNumber, rows, rowValues, field) {
-      this.p1Turn = !this.p1Turn;
+    determineResults(playerNumber, rows, rowValues, field, resetTrue) {
+      if (!resetTrue) {
+        this.p1Turn = !this.p1Turn;
+      }
+
       // update the state of the field
       if (playerNumber === "p1") {
         this.p1Field = field;
@@ -61,6 +65,8 @@ export default {
         let doesP2HaveNewestNumber = p2RowToCheck.includes(newestNumber);
 
         // okay we have a match, now lets deal with it
+
+        // TODO: there is a huge bug here where sometimes we fuck up the new array and insert shit that isnt there
 
         if (doesP2HaveNewestNumber) {
           const arrayAfterComparison = [];
@@ -92,6 +98,7 @@ export default {
           this.modifiedArray1.newArray = arrayAfterComparison;
         }
       }
+      this.mostRecentPlayer = playerNumber;
     },
   },
 };
