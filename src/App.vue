@@ -2,6 +2,7 @@
   <div id="app">
     <Player1
       :modifiedArray="modifiedArray1"
+      :p1Turn="p1Turn"
       @determineResults="
         (playerNumber, rows, rowValues, field) =>
           determineResults(playerNumber, rows, rowValues, field)
@@ -9,6 +10,7 @@
     />
     <div class="gap"></div>
     <Player2
+      :p1Turn="p1Turn"
       :modifiedArray="modifiedArray2"
       @determineResults="
         (playerNumber, rows, rowValues, field) =>
@@ -36,10 +38,12 @@ export default {
         columnNumber: null,
         newArray: [],
       },
+      p1Turn: false,
     };
   },
   methods: {
     determineResults(playerNumber, rows, rowValues, field) {
+      this.p1Turn = !this.p1Turn;
       // update the state of the field
       if (playerNumber === "p1") {
         this.p1Field = field;

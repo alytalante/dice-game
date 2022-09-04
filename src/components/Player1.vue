@@ -2,13 +2,20 @@
   <div class="p1">
     <div>
       <div class="score">{{ this.totalValue }}</div>
-      <Die @newDieValue="(value) => handleNewDieValue(value)" :reset="reset" />
+      <Die
+        :p1Turn="myTurn"
+        @newDieValue="(value) => handleNewDieValue(value)"
+        :reset="reset"
+      />
     </div>
     <div class="field">
       <Column
         :columnPosition="0"
         :modifiedArray="modifiedArray"
         :dieValue="dieValue"
+        @updateScore="
+          (value, columnPosition) => handleUpdateScore(value, columnPosition)
+        "
         @resetDie="() => handleDieReset()"
         @newTotalValue="
           (value, columnPosition, rowValues) =>
@@ -20,6 +27,9 @@
         :modifiedArray="modifiedArray"
         :columnPosition="1"
         @resetDie="() => handleDieReset()"
+        @updateScore="
+          (value, columnPosition) => handleUpdateScore(value, columnPosition)
+        "
         @newTotalValue="
           (value, columnPosition, rowValues) =>
             handleUpdatedValue(value, columnPosition, rowValues)
@@ -29,6 +39,9 @@
         :dieValue="dieValue"
         :modifiedArray="modifiedArray"
         :columnPosition="2"
+        @updateScore="
+          (value, columnPosition) => handleUpdateScore(value, columnPosition)
+        "
         @resetDie="() => handleDieReset()"
         @newTotalValue="
           (value, columnPosition, rowValues) =>
@@ -49,7 +62,7 @@ export default {
     Die,
     Column,
   },
-  props: ["modifiedArray"],
+  props: ["modifiedArray", "p1Turn"],
   data() {
     return {
       dieValue: 5,
@@ -57,16 +70,24 @@ export default {
       cScores: [0, 0, 0],
       reset: true,
       field: [[], [], []],
+      myTurn: true,
     };
   },
-
+  watch: {
+    p1Turn(newValue) {
+      this.myTurn = !this.myTurn;
+    },
+  },
   methods: {
     handleNewDieValue(value) {
       this.dieValue = value;
     },
-    handleUpdatedValue(value, columnPosition, rowValues) {
+    handleUpdateScore(value, columnPosition) {
       this.cScores[columnPosition] = value;
       this.totalValue = this.cScores[0] + this.cScores[1] + this.cScores[2];
+      console.log(this.totalValue);
+    },
+    handleUpdatedValue(value, columnPosition, rowValues) {
       this.field[columnPosition] = rowValues;
       this.$emit(
         "determineResults",
@@ -100,6 +121,7 @@ export default {
   align-items: center;
   justify-content: space-around;
   padding: 20px;
+  border-radius: 3px;
 }
 
 .score {
@@ -108,7 +130,7 @@ export default {
   border-bottom: none;
 }
 .filler {
-  width: 59px;
+  width: 61px;
   background: red;
 }
 </style>

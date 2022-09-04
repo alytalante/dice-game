@@ -24,7 +24,8 @@ export default {
         if (newValue.columnNumber === this.columnPosition)
           this.rowValues = newValue.newArray;
         this.totalValue = this.calculateScore();
-        this.updateParentValue(this.totalValue);
+        // this.updateParentValue(this.totalValue);
+        this.updateScore(this.totalValue);
       },
       deep: true,
     },
@@ -34,12 +35,16 @@ export default {
       if (this.rowValues.length < this.rows && this.dieValue && this.myTurn) {
         this.rowValues.push(this.dieValue);
         this.totalValue = this.calculateScore();
+        this.updateScore(this.totalValue);
         this.updateParentValue(this.totalValue);
         this.$emit("resetDie");
       }
     },
     updateParentValue(value) {
       this.$emit("newTotalValue", value, this.columnPosition, this.rowValues);
+    },
+    updateScore(value) {
+      this.$emit("updateScore", value, this.columnPosition);
     },
     calculateScore() {
       let score = 0;
@@ -101,6 +106,7 @@ export default {
   display: grid;
   justify-content: center;
   align-content: center;
+  background: #997577;
 }
 
 .playedDie {

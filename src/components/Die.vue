@@ -20,6 +20,7 @@ export default {
     reset: {
       default: false,
     },
+    p1Turn: {},
   },
   watch: {
     reset(oldValue, newValue) {
@@ -52,7 +53,7 @@ export default {
 <template>
   <div class="dieContainer">
     <img class="dieImage" :src="image" />
-    <button @click="rollDie" v-if="goodToReroll">Roll</button>
+    <button @click="rollDie" v-if="goodToReroll && !p1Turn">Roll</button>
   </div>
 </template>
 
@@ -82,5 +83,16 @@ export default {
   display: block;
   margin: 2px auto;
   padding-bottom: 5px;
+}
+
+button {
+  background: #0f2a3f;
+  border: 1px solid #997577;
+  border-radius: 2px;
+  color: #f6d6bd;
+}
+
+button:hover {
+  background: #20394f;
 }
 </style>
